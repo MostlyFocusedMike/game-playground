@@ -12,7 +12,32 @@ key_jump = keyboard_check_pressed(vk_space); // check evaluates to 1 or 0
 // var establishes that the value exists only for one frame
 var move = key_right - key_left; // right = 1, left = -1, both/no move = 0;
 
-horizontal_speed = move * walk_speed;
+// smooth movement
+if (move) {
+	frame_since_move += 1;
+} else {
+	frame_since_move = 0;
+}
+
+smooth = 4
+if (frame_since_move > 10) {
+	smooth = 1
+		show_debug_message(smooth);
+
+} else if (frame_since_move > 5) {
+	smooth = 2
+		show_debug_message(smooth);
+
+} else if (frame_since_move == 0) {
+	smooth = 4
+		show_debug_message(smooth);
+
+}
+
+
+final_walk_speed = walk_speed / smooth;
+
+horizontal_speed = (move * final_walk_speed);
 vertical_speed = vertical_speed + custom_gravity;
 eventual_x_location = x + horizontal_speed;
 custom_gravity = .2;
@@ -27,7 +52,7 @@ if (place_meeting(eventual_x_location, y, object_wall)) {
 	}
 	double_jump_used = 0;
 	horizontal_speed = 0;
-	custom_gravity = .05;
+	custom_gravity = .01;
 }
 // x and y is a built in variable for the sprite's x coordinate
 // changing these physically moves the sprite
@@ -69,4 +94,5 @@ if (y > 800) {
 	x = 34;
 	y = 64;
 }
+
 

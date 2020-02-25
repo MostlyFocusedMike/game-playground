@@ -10,3 +10,4 @@ jump_height = -5;
 double_jump_used = 0;
 x = 0;
 y = 0;
+frame_since_move = 0;
